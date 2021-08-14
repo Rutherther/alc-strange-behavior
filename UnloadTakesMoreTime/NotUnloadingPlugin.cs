@@ -24,8 +24,7 @@ namespace DoesntUnload
 
             var immutableElements = elements.ToImmutableList();
 
-            // works okay with char, string, int, object (seems like that it works okay with all built-in types, but I did not test each one of them)
-            // unload takes more time for custom classes/records, structs being iterated over
+            // works okay with any object that is not loaded inside AssemblyLoadContext of the plugin
             // okay means that it unloads correctly on second iteration of GC.Collect (waiting for 5000 + 2000 ms)
             
             // For debug
@@ -33,6 +32,9 @@ namespace DoesntUnload
             // Some runs took 49 iterations, some even 420 iterations
             
             // In release it took 21 iterations
+            
+            // Minimum would be to call immutableElements.GetEnumerator().Dispose()
+            // instead of iterating over foreach
             foreach (var element in immutableElements)
             {
                 Console.WriteLine(element);
