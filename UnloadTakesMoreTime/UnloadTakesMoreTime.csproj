@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <ItemGroup>
+        <_CopyPlugin Include="$(ProjectDir)/$(OutDir)/*" />
+    </ItemGroup>
+    <Target Name="CopyPluginFiles" AfterTargets="Build">
+        <Message Text="Copying to Christofel.Application plugins folder..." />
+        <Copy SourceFiles="@(_CopyPlugin)" DestinationFolder="$(SolutionDir)/Application/$(OutDir)/Plugins/$(ProjectName)" />
+        <Copy SourceFiles="@(_CopyPlugin)" DestinationFolder="$(SolutionDir)/Application/$(OutDir)/Plugins/$(ProjectName)" />
+    </Target>
+    
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+        <RootNamespace>DoesntUnload</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Library\Library.csproj" />
+    </ItemGroup>
+
+</Project>
