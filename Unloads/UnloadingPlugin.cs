@@ -10,21 +10,20 @@ namespace Unloads
     public class UnloadingPlugin : IPlugin
     {
         public record Element(
-            string Data
+            int Data
         );
-        
+
         public void DoJob()
         {
             // Works okay with array, List
-            var elements = new[]
+            var elements = new List<Element>();
+            for (int i = 0; i < 5000; i++)
             {
-                new Element("a"),
-                new Element("b"),
-                new Element("c"),
-                new Element("d"),
-            }.ToImmutableArray();
+                elements.Add(new Element(i));
+            }
 
-            foreach (Element element in elements)
+            var immutableElements = elements.ToImmutableArray();
+            foreach (Element element in immutableElements)
             {
                 Console.WriteLine(element);
             }

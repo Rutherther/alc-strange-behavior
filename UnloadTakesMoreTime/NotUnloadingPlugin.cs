@@ -11,20 +11,19 @@ namespace DoesntUnload
     {
         // Record stored in immutable list
         public record Element(
-            string Data
+            int Data
         );
 
         public void DoJob()
         {
-            var elements = new[]
+            var elements = new List<Element>();
+            for (int i = 0; i < 5000; i++)
             {
-                new Element("a"),
-                new Element("b"),
-                new Element("c"),
-                new Element("d"),
-                new Element("e"),
-            }.ToImmutableList();
-            
+                elements.Add(new Element(i));
+            }
+
+            var immutableElements = elements.ToImmutableList();
+
             // works okay with char, string, int, object (seems like that it works okay with all built-in types, but I did not test each one of them)
             // unload takes more time for custom classes/records, structs being iterated over
             // okay means that it unloads correctly on second iteration of GC.Collect (waiting for 5000 + 2000 ms)
@@ -34,7 +33,7 @@ namespace DoesntUnload
             // Some runs took 49 iterations, some even 420 iterations
             
             // In release it took 21 iterations
-            foreach (var element in elements)
+            foreach (var element in immutableElements)
             {
                 Console.WriteLine(element);
             }
